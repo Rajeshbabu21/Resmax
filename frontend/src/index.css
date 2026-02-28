@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Ascender Sans Mono';
+  src: url('./assets/fonts/ascender-sans-mono-w01-regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-custom-heading {
+  font-family: 'Ascender Sans Mono', monospace;
+}
+
+
+@theme {
+  --color-brand-blue: #0e20fb;
+  --color-brand-pink: #ff1c98;
+  --color-brand-dark: #0a0a0a;
+
+  --shadow-brutal: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  --shadow-brutal-hover: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+  --shadow-brutal-sm: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+}
+
+body {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  background-color: #ffffff;
+  color: #0a0a0a;
+  overflow-x: hidden;
+}
+
+.bg-grid {
+  background-size: 32px 32px;
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-position: top center;
+}
+
+/* Reusing a strong sans-serif for main titles if needed, otherwise rely on mono for that coding feel */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.025em;
+}
+
+h1 strong,
+h2 strong,
+.font-mono-title {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
