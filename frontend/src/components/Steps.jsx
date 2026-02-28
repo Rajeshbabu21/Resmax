@@ -3,16 +3,16 @@ import React from 'react';
 export default function Steps() {
     const steps = [
         {
-            title: 'Upload',
-            desc: 'Drop your resume. Any format.',
+            title: 'Choose',
+            desc: 'Start with an ATS-friendly template.',
         },
         {
-            title: 'Generate',
-            desc: 'AI builds your portfolio.',
+            title: 'Build',
+            desc: 'AI writes your bullet points.',
         },
         {
-            title: 'Publish',
-            desc: 'Go live instantly.',
+            title: 'Analyze',
+            desc: 'Get your ATS score & export.',
         }
     ];
 

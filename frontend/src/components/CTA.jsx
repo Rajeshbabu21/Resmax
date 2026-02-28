@@ -20,13 +20,13 @@ export default function CTA() {
 
             <div className="max-w-4xl mx-auto px-4 relative z-10 text-center">
                 <h2 className="text-5xl md:text-7xl font-bold font-mono-title tracking-tight mb-8">
-                    <span className="text-white">Ready to stand</span>
+                    <span className="text-white">Ready to get</span>
                     <br />
-                    <span className="text-brand-dark">out?</span>
+                    <span className="text-brand-dark">hired?</span>
                 </h2>
 
                 <p className="text-brand-dark/80 font-mono text-sm md:text-base mb-10 max-w-lg mx-auto">
-                    Join the waitlist. Be first when we launch in 2026.
+                    Start building your ATS-optimized resume today.
                 </p>
 
                 <form className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-xl mx-auto mb-6" onSubmit={e => e.preventDefault()}>
@@ -40,7 +40,7 @@ export default function CTA() {
                         type="submit"
                         className="bg-brand-dark text-white font-mono font-bold uppercase tracking-widest text-sm px-8 py-3 w-full sm:w-auto border-2 border-brand-dark shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] hover:-translate-y-[1px] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,0.5)] transition-all flex items-center justify-center gap-2 whitespace-nowrap"
                     >
-                        JOIN <MoveRight size={16} />
+                        BUILD NOW <MoveRight size={16} />
                     </button>
                 </form>
 

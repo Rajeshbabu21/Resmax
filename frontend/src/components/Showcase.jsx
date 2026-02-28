@@ -3,23 +3,23 @@ import React from 'react';
 export default function Showcase() {
     const cards = [
         {
-            name: 'Sarah Chen',
-            role: 'PRODUCT DESIGNER',
-            initials: 'SC',
+            name: 'The Executive',
+            role: 'CLASSIC & PROFESSIONAL',
+            initials: 'EX',
             color: 'bg-brand-pink',
             textColor: 'text-brand-pink',
         },
         {
-            name: 'Alex Rivera',
-            role: 'SOFTWARE ENGINEER',
-            initials: 'AR',
+            name: 'The Tech Lead',
+            role: 'SKILLS & IMPACT FOCUSED',
+            initials: 'TL',
             color: 'bg-brand-blue',
             textColor: 'text-brand-blue',
         },
         {
-            name: 'Jordan Taylor',
-            role: 'MARKETING LEAD',
-            initials: 'JT',
+            name: 'The Creative',
+            role: 'MODERN & BOLD DESIGN',
+            initials: 'CR',
             color: 'bg-brand-dark',
             textColor: 'text-brand-dark',
         }
@@ -29,11 +29,11 @@ export default function Showcase() {
         <section id="examples" className="w-full py-24 bg-white relative">
             <div className="max-w-6xl mx-auto px-4 text-center mb-16 relative z-10">
                 <h2 className="text-5xl md:text-7xl font-bold mb-6 font-mono-title tracking-tight">
-                    Built for <span className="text-brand-pink font-sans">everyone</span>
+                    Templates that <span className="text-brand-pink font-sans">win</span>
                 </h2>
                 <p className="font-mono text-sm md:text-md text-gray-500 max-w-xl mx-auto uppercase tracking-wider">
-                    From developers to designers to marketers.
-                    <br />Your profession, your style.
+                    ATS-friendly designs that stand out.
+                    <br />Choose the perfect format for your industry.
                 </p>
 
                 {/* Star */}

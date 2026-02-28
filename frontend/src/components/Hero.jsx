@@ -19,7 +19,7 @@ export default function Hero() {
                 <h1 className="text-6xl sm:text-7xl md:text-[6rem] leading-[1.1] font-bold font-custom-heading tracking-tight text-brand-dark relative">
                     Resume in<span className="text-brand-dark">.</span>
                     <br />
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-brand-blue to-brand-pink">Portfolio out</span>
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-brand-blue to-brand-pink">Offer out</span>
                     <span className="text-brand-pink">.</span>
 
                     {/* Big Star absolute positioned */}
@@ -30,8 +30,8 @@ export default function Hero() {
             </div>
 
             {/* Subtitle */}
-            <p className="text-center font-mono text-gray-600 text-sm md:text-base max-w-xl mb-10 z-10 leading-relaxed">
-                Upload your resume. Get a stunning portfolio website in minutes. No design skills needed.
+            <p className="text-center font-mono text-gray-600 text-sm md:text-base max-w-2xl mb-10 z-10 leading-relaxed">
+                Build an ATS-optimized resume with AI. Analyze your score against job descriptions and get hired faster. No writing skills needed.
             </p>
 
             {/* Form */}
@@ -46,7 +46,7 @@ export default function Hero() {
                     type="submit"
                     className="bg-brand-blue text-white font-mono font-bold uppercase tracking-widest text-sm px-8 py-3 border-2 border-brand-dark shadow-[4px_4px_0px_0px_var(--color-brand-dark)] hover:-translate-y-[1px] hover:shadow-[5px_5px_0px_0px_var(--color-brand-dark)] transition-all flex items-center justify-center gap-2 whitespace-nowrap"
                 >
-                    JOIN <MoveRight size={16} />
+                    BUILD RESUME <MoveRight size={16} />
                 </button>
             </form>
 
@@ -58,7 +58,7 @@ export default function Hero() {
                     <div className="w-6 h-6 bg-brand-pink border-2 border-brand-dark rounded-sm flex items-center justify-center text-[10px] text-white">☻</div>
                     <div className="w-6 h-6 bg-brand-dark border-2 border-brand-dark rounded-sm flex items-center justify-center text-[10px] text-white">ツ</div>
                 </div>
-                <span>0+ on the waitlist</span>
+                <span>5k+ resumes built</span>
             </div>
 
             {/* Browser Mockup */}
@@ -81,36 +81,51 @@ export default function Hero() {
                             <div className="w-3 h-3 rounded-full bg-green-500"></div>
                         </div>
                         <div className="mx-auto bg-white text-brand-dark font-mono text-xs px-8 py-1 truncate max-w-[200px]">
-                            yourname.poplio.dev
+                            your_resume.pdf
                         </div>
                         <div className="w-12"></div> {/* Spacer for balance */}
                     </div>
 
-                    {/* Mockup Content */}
-                    <div className="p-6 md:p-10 bg-white">
-                        <div className="flex gap-6 mb-8 items-center border-b-2 border-gray-100 pb-8">
-                            <div className="w-20 h-20 md:w-24 md:h-24 bg-brand-blue flex items-center justify-center text-white font-mono text-2xl border-2 border-brand-dark shadow-[4px_4px_0px_0px_var(--color-brand-dark)]">
-                                JD
-                            </div>
-                            <div className="flex flex-col gap-3">
-                                <div className="w-32 md:w-48 h-6 bg-brand-dark"></div>
-                                <div className="flex gap-2">
-                                    <div className="bg-brand-dark text-white text-[10px] font-mono px-2 py-1 uppercase tracking-wider">React</div>
-                                    <div className="bg-brand-pink text-white text-[10px] font-mono px-2 py-1 uppercase tracking-wider">Node.js</div>
+                    {/* Mockup Content (Resume Layout Document) */}
+                    <div className="p-8 md:p-12 bg-white flex flex-col w-full">
+                        {/* Header Block */}
+                        <div className="w-full flex flex-col items-center mb-8">
+                            <div className="w-48 md:w-56 h-8 md:h-10 bg-brand-dark mb-3"></div>
+                            <div className="w-64 md:w-72 h-3 md:h-4 bg-[#e2e8f0]"></div>
+                        </div>
+
+                        {/* Divider */}
+                        <div className="w-full h-px bg-brand-dark mb-8"></div>
+
+                        <div className="w-full text-left">
+                            {/* Pink Block */}
+                            <div className="w-24 md:w-32 h-5 md:h-6 bg-brand-pink mb-6"></div>
+
+                            {/* Experience 1 */}
+                            <div className="mb-8">
+                                <div className="flex justify-between items-center mb-4">
+                                    <div className="w-32 md:w-48 h-4 md:h-5 bg-brand-dark"></div>
+                                    <div className="w-16 md:w-24 h-4 md:h-5 bg-[#cbd5e1]"></div>
+                                </div>
+                                <div className="space-y-3 ml-2 pl-4 border-l-2 border-gray-100">
+                                    <div className="w-full md:w-[95%] h-2.5 md:h-3 bg-[#e2e8f0]"></div>
+                                    <div className="w-[90%] h-2.5 md:h-3 bg-[#e2e8f0]"></div>
+                                    <div className="w-[85%] h-2.5 md:h-3 bg-[#e2e8f0]"></div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div className="space-y-3 mb-8">
-                            <div className="w-full h-3 bg-gray-200"></div>
-                            <div className="w-[90%] h-3 bg-gray-200"></div>
-                            <div className="w-[80%] h-3 bg-gray-200"></div>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <div className="aspect-square bg-gray-100 border-2 border-brand-dark"></div>
-                            <div className="aspect-square bg-gray-100 border-2 border-brand-dark"></div>
-                            <div className="aspect-square bg-gray-100 border-2 border-brand-dark"></div>
+                            {/* Experience 2 */}
+                            <div className="mb-4">
+                                <div className="flex justify-between items-center mb-4">
+                                    <div className="w-40 md:w-56 h-4 md:h-5 bg-brand-dark"></div>
+                                    <div className="w-16 md:w-24 h-4 md:h-5 bg-[#cbd5e1]"></div>
+                                </div>
+                                <div className="space-y-3 ml-2 pl-4 border-l-2 border-gray-100">
+                                    <div className="w-[88%] h-2.5 md:h-3 bg-[#a5b4fc]"></div>
+                                    <div className="w-[92%] h-2.5 md:h-3 bg-[#e2e8f0]"></div>
+                                    <div className="w-[98%] h-2.5 md:h-3 bg-[#e2e8f0]"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

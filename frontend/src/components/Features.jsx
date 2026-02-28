@@ -1,14 +1,14 @@
 import React from 'react';
-import { Zap, Palette, Smartphone, Search, Globe, RefreshCcw } from 'lucide-react';
+import { Bot, LineChart, CheckCircle, FileText, Target, Download } from 'lucide-react';
 
 export default function Features() {
     const features = [
-        { icon: <Zap size={24} />, title: '2-min setup', desc: 'No templates. No decisions.' },
-        { icon: <Palette size={24} />, title: 'AI design', desc: 'Adapts to your profession.' },
-        { icon: <Smartphone size={24} />, title: 'Mobile-ready', desc: 'Looks great everywhere.' },
-        { icon: <Search size={24} />, title: 'SEO built-in', desc: 'Get found by recruiters.' },
-        { icon: <Globe size={24} />, title: 'Custom domain', desc: 'yourname.com included.' },
-        { icon: <RefreshCcw size={24} />, title: 'Live updates', desc: 'Edit anytime.' }
+        { icon: <Bot size={24} />, title: 'AI Generation', desc: 'Writes your achievements for you.' },
+        { icon: <LineChart size={24} />, title: 'ATS Scoring', desc: 'Match keywords & skills instantly.' },
+        { icon: <CheckCircle size={24} />, title: 'Grammar Pro', desc: 'Error-free writing guaranteed.' },
+        { icon: <FileText size={24} />, title: 'Format Check', desc: 'Parses perfectly on all systems.' },
+        { icon: <Target size={24} />, title: 'Job Tailored', desc: 'Adapt your resume to any role.' },
+        { icon: <Download size={24} />, title: 'Easy Exports', desc: 'Unlimited PDF downloads.' }
     ];
 
     return (
