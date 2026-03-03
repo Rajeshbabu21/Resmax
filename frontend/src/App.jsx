@@ -1,27 +1,22 @@
 import React from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import Steps from './components/Steps';
-import Showcase from './components/Showcase';
-import Features from './components/Features';
-import CTA from './components/CTA';
-import Footer from './components/Footer';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Signin from './pages/Signin';
+import Signup from './pages/Signup';
 
 function App() {
   return (
-    <div className="min-h-screen relative w-full overflow-hidden bg-white text-brand-dark bg-grid">
-      <Header />
-
-      <main className="pt-24 md:pt-32 pb-0">
-        <Hero />
-        <Steps />
-        <Showcase />
-        <Features />
-        <CTA />
-      </main>
-
-      <Footer />
-    </div>
+    <Router>
+      <div className="min-h-screen relative w-full flex flex-col items-center bg-white text-brand-dark bg-grid overflow-x-hidden">
+        <div className="w-full max-w-[100vw]">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
 }
 

@@ -36,15 +36,15 @@ export default function Hero() {
 
             {/* Form */}
             <form className="flex flex-col sm:flex-row gap-4 mb-8 z-10 w-full max-w-xl mx-auto px-4" onSubmit={e => e.preventDefault()}>
-                <input
+                {/* <input
                     type="email"
                     placeholder="your@email.com"
                     required
                     className="flex-1 border-2 border-brand-dark px-4 py-3 font-mono text-sm focus:outline-none focus:shadow-[2px_2px_0px_0px_var(--color-brand-blue)] transition-shadow"
-                />
+                /> */}
                 <button
                     type="submit"
-                    className="bg-brand-blue text-white font-mono font-bold uppercase tracking-widest text-sm px-8 py-3 border-2 border-brand-dark shadow-[4px_4px_0px_0px_var(--color-brand-dark)] hover:-translate-y-[1px] hover:shadow-[5px_5px_0px_0px_var(--color-brand-dark)] transition-all flex items-center justify-center gap-2 whitespace-nowrap"
+                    className="d-flex justify-center items-center ml-auto mr-auto bg-brand-blue cursor-pointer  text-white font-mono font-bold uppercase tracking-widest text-sm px-8 py-3 border-2 border-brand-dark shadow-[4px_4px_0px_0px_var(--color-brand-dark)] hover:-translate-y-[1px] hover:shadow-[5px_5px_0px_0px_var(--color-brand-dark)] transition-all flex items-center justify-center gap-2 whitespace-nowrap"
                 >
                     BUILD RESUME <MoveRight size={16} />
                 </button>
