@@ -1,5 +1,6 @@
 import React from 'react';
-import { Sparkles, MoveRight } from 'lucide-react';
+import { Sparkles, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
     return (
@@ -42,12 +43,13 @@ export default function Hero() {
                     required
                     className="flex-1 border-2 border-brand-dark px-4 py-3 font-mono text-sm focus:outline-none focus:shadow-[2px_2px_0px_0px_var(--color-brand-blue)] transition-shadow"
                 /> */}
-                <button
-                    type="submit"
-                    className="d-flex justify-center items-center ml-auto mr-auto bg-brand-blue cursor-pointer  text-white font-mono font-bold uppercase tracking-widest text-sm px-8 py-3 border-2 border-brand-dark shadow-[4px_4px_0px_0px_var(--color-brand-dark)] hover:-translate-y-[1px] hover:shadow-[5px_5px_0px_0px_var(--color-brand-dark)] transition-all flex items-center justify-center gap-2 whitespace-nowrap"
+                <Link
+                    to="/builder"
+                    className="bg-brand-dark text-white font-mono text-sm md:text-base font-bold uppercase tracking-widest px-8 md:px-12 py-4 md:py-5 border-4 border-brand-dark shadow-[8px_8px_0px_0px_var(--color-brand-blue)] hover:translate-y-[4px] hover:shadow-[4px_4px_0px_0px_var(--color-brand-blue)] transition-all flex items-center justify-center gap-4 group"
                 >
-                    BUILD RESUME <MoveRight size={16} />
-                </button>
+                    BUILD YOUR COMPREHENSIVE RESUME NOW
+                    <ArrowRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-2 transition-transform" />
+                </Link>
             </form>
 
             {/* Waitlist count */}

@@ -1,18 +1,69 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserPlus, ArrowLeft } from 'lucide-react';
 import AuthCard from '../components/ui/AuthCard';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
+import { register, login } from '../services/authService';
 
 export default function Signup() {
+    const [formData, setFormData] = useState({
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
+    const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+
+        if (formData.password !== formData.confirmPassword) {
+            setError('Passwords do not match');
+            return;
+        }
+
         setIsLoading(true);
-        // Simulate network request
-        setTimeout(() => setIsLoading(false), 1500);
+        try {
+            // Call centralized user registration schema map
+            await register({
+                first_name: formData.first_name,
+                last_name: formData.last_name,
+                email: formData.email,
+                password: formData.password
+            });
+
+            // SUCCESS! Now automatically log them in via the service layer
+            let loginData;
+            try {
+                loginData = await login(formData.email, formData.password);
+            } catch (loginErr) {
+                // Registration succeeded but auto-login failed
+                navigate('/signin');
+                return;
+            }
+
+            // Store the token and redirect to home
+            localStorage.setItem('access_token', loginData.access_token);
+            window.dispatchEvent(new Event('authChange'));
+            navigate('/');
+
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -32,15 +83,26 @@ export default function Signup() {
                     subtitle="Join 5k+ users building ATS-optimized resumes and getting hired faster."
                 >
                     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                        {error && (
+                            <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm font-mono border border-red-200">
+                                {error}
+                            </div>
+                        )}
                         <div className="flex flex-col sm:flex-row gap-5">
                             <Input
                                 label="FIRST NAME"
                                 type="text"
+                                name="first_name"
+                                value={formData.first_name}
+                                onChange={handleChange}
                                 placeholder="Alex"
                             />
                             <Input
                                 label="LAST NAME"
                                 type="text"
+                                name="last_name"
+                                value={formData.last_name}
+                                onChange={handleChange}
                                 placeholder="Doe"
                             />
                         </div>
@@ -48,6 +110,9 @@ export default function Signup() {
                         <Input
                             label="EMAIL ADDRESS"
                             type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
                             placeholder="your@email.com"
                             required
                         />
@@ -55,6 +120,9 @@ export default function Signup() {
                         <Input
                             label="PASSWORD"
                             type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
                             placeholder="••••••••"
                             required
                         />
@@ -62,6 +130,9 @@ export default function Signup() {
                         <Input
                             label="CONFIRM PASSWORD"
                             type="password"
+                            name="confirmPassword"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
                             placeholder="••••••••"
                             required
                         />

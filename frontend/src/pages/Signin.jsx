@@ -1,18 +1,47 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LogIn, ArrowLeft } from 'lucide-react';
 import AuthCard from '../components/ui/AuthCard';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
+import { login } from '../services/authService';
 
 export default function Signin() {
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+    const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
         setIsLoading(true);
-        // Simulate network request
-        setTimeout(() => setIsLoading(false), 1500);
+
+        try {
+            // Centralized auth service call maps our UI params to the network
+            const data = await login(formData.email, formData.password);
+
+            // Store the token
+            localStorage.setItem('access_token', data.access_token);
+            window.dispatchEvent(new Event('authChange'));
+
+            // Redirect to home or dashboard
+            navigate('/');
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -33,9 +62,17 @@ export default function Signin() {
                     subtitle="Welcome back to Resume ATS. Ready to land your next role?"
                 >
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                        {error && (
+                            <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm font-mono border border-red-200">
+                                {error}
+                            </div>
+                        )}
                         <Input
                             label="EMAIL ADDRESS"
                             type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
                             placeholder="your@email.com"
                             required
                         />
@@ -43,6 +80,9 @@ export default function Signin() {
                         <Input
                             label="PASSWORD"
                             type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
                             placeholder="••••••••"
                             required
                         />

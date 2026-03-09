@@ -14,4 +14,8 @@
     langchain
     langchain-core
     langchain-google-genai
+    pdfplumber
+    sentence-transformers
+    scikit-learn
+    numpy
 
