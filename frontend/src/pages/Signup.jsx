@@ -80,7 +80,7 @@ export default function Signup() {
             <div className="flex-1 flex items-center justify-center">
                 <AuthCard
                     title="Sign Up"
-                    subtitle="Join 5k+ users building ATS-optimized resumes and getting hired faster."
+                    subtitle="Join as users building ATS-optimized resumes and getting hired faster."
                 >
                     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                         {error && (

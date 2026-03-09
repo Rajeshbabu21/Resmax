@@ -28,6 +28,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+@app.get("/ping")
+def ping():
+    return {"message": "pong"}
 
 @app.post("/register_users")
 def create_user(users: Users):

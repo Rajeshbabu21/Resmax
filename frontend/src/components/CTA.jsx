@@ -29,7 +29,7 @@ export default function CTA() {
                     Start building your ATS-optimized resume today.
                 </p>
 
-                <form className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-xl mx-auto mb-6" onSubmit={e => e.preventDefault()}>
+                {/* <form className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-xl mx-auto mb-6" onSubmit={e => e.preventDefault()}>
                     <input
                         type="email"
                         placeholder="your@email.com"
@@ -42,7 +42,7 @@ export default function CTA() {
                     >
                         BUILD NOW <MoveRight size={16} />
                     </button>
-                </form>
+                </form> */}
 
                 <p className="text-brand-dark/70 font-mono text-xs font-bold uppercase tracking-widest">
                     NO SPAM. UNSUBSCRIBE ANYTIME.

@@ -87,11 +87,11 @@ export default function Signin() {
                             required
                         />
 
-                        <div className="flex justify-end mt-[-10px]">
+                        {/* <div className="flex justify-end mt-[-10px]">
                             <a href="#" className="font-mono text-xs font-bold text-gray-500 hover:text-brand-pink transition-colors underline decoration-brand-pink/30 hover:decoration-brand-pink underline-offset-4">
                                 Forgot Password?
                             </a>
-                        </div>
+                        </div> */}
 
                         <Button type="submit" className="w-full mt-2" isLoading={isLoading}>
                             SIGN IN <LogIn size={16} />
