@@ -36,6 +36,8 @@ def chunk_text(text: str, chunk_size: int = 300) -> list:
         words = text.split()
         chunks = [' '.join(words[i:i + chunk_size]) for i in range(0, len(words), chunk_size)]
         logger.info(f"Generated {len(chunks)} text chunks.")
+        for i, chunk in enumerate(chunks):
+            logger.info(f"Chunk {i+1}: {chunk}")
         return chunks
     except Exception as e:
         logger.error(f"Error chunking text: {e}")
@@ -46,10 +48,11 @@ def generate_resume_embeddings(chunks: list) -> list:
     logger.info(f"Generating embeddings for {len(chunks)} resume chunks.")
     embeddings = []
     try:
-        for chunk in chunks:
+        for i, chunk in enumerate(chunks):
             # Check if chunk is not purely empty whitespace
             if chunk.strip():
                 emb = generate_embedding(chunk)
+                logger.info(f"Generated embedding vector for chunk {i+1}: {emb}")
                 embeddings.append(emb)
         logger.info("Successfully generated embeddings for all valid resume chunks.")
         return embeddings
@@ -69,7 +72,9 @@ def generate_keyword_embeddings(keywords: list) -> list:
                     model="models/gemini-embedding-001",
                     content=kw.strip()
                 )
-                embeddings.append(response["embedding"])
+                emb_vector = response["embedding"]
+                logger.info(f"Generated embedding vector for keyword '{kw}': {emb_vector}")
+                embeddings.append(emb_vector)
         logger.info("Successfully generated embeddings for all keywords.")
         return embeddings
     except Exception as e:
