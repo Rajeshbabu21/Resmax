@@ -22,6 +22,13 @@
   --shadow-brutal-sm: 2px 2px 0px 0px rgba(0, 0, 0, 1);
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
 body {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   background-color: #ffffff;

@@ -6,5 +6,4 @@ class EmailCreate(BaseModel):
     resume_id: int
     job_description: str
     resume_text: Optional[str] = None
-    email_subject: Optional[str] = None
-    email_body: Optional[str] = None
+    
