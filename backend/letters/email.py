@@ -38,22 +38,27 @@ async def generate_email_draft(data: EmailCreate):
         model = genai.GenerativeModel("models/gemini-2.5-flash")
 
         prompt = f"""
-        Generate a professional job application email.
+        You are an assistant that writes professional job application emails.
 
-        Return the result in this format:
+Using the following Resume and Job Description, generate a concise professional email applying for the job.
 
-        Subject: <email subject>
+Resume:
+{data.resume_text}
 
-        Body:
-        <email body>
+Job Description:
+{data.job_description}
 
-        Use the following information.
-
-        Resume:
-        {resume_text}
-
-        Job Description:
-        {data.job_description}
+CRITICAL INSTRUCTIONS:
+- Write a professional email.
+- Mention relevant skills from the resume.
+- Align the candidate’s experience with the job description.
+- Keep the email concise (120–150 words).
+- DO NOT use any placeholders like [Your Name], [Company Name], [Date], [Hiring Manager], etc. 
+- Extract the applicant's name and contact details directly from the resume to sign off the email.
+- If information like the hiring manager's name is missing, use a generic greeting like "Dear Hiring Team,".
+- Generate:
+1. Email Subject
+2. Email Body
         """
         
         logger.info("Generating email draft via Gemini API")

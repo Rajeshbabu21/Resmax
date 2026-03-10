@@ -16,7 +16,7 @@ if GEMINI_API_KEY:
 else:
     logger.warning("GEMINI_API_KEY not found in environment variables.")
 
-# Using Gemini Flash for fast generation tasks
+# Using gemini model
 try:
     model_name = "models/gemini-2.5-flash"
     model = genai.GenerativeModel(model_name)
@@ -26,7 +26,7 @@ except Exception as e:
     model = None
 
 def generate_ats_keywords(role: str, category: str, experience: str) -> list:
-    """Use Gemini API to generate 20 ATS keywords for a job role."""
+    
     logger.info(f"Generating 20 ATS keywords for {experience} job role: '{role}' in {category}")
     if not model:
         raise RuntimeError("Gemini model is not initialized.")
@@ -37,11 +37,11 @@ def generate_ats_keywords(role: str, category: str, experience: str) -> list:
     """
     try:
         response = model.generate_content(prompt)
-        # Clean response in case LLM added line breaks or extra spaces
+        # Clean response added line breaks or extra spaces
         raw_text = response.text.replace('\n', ',')
         keywords = [k.strip() for k in raw_text.split(",") if k.strip()]
         
-        # Ensure we clamp at exactly 20 keywords if it over-generates
+        # only 20 words
         keywords = keywords[:20]
         
         logger.info(f"Successfully generated {len(keywords)} ATS keywords.")
@@ -51,7 +51,7 @@ def generate_ats_keywords(role: str, category: str, experience: str) -> list:
         raise
 
 def find_missing_keywords(keywords: list, resume_text: str) -> list:
-    """Detect keywords missing in the resume."""
+
     logger.info(f"Analyzing resume to find missing keywords among the {len(keywords)} required skills.")
     if not model:
         raise RuntimeError("Gemini model is not initialized.")
@@ -83,7 +83,6 @@ def find_missing_keywords(keywords: list, resume_text: str) -> list:
         raise
 
 def generate_feedback(resume_text: str, missing_keywords: list, experience: str) -> str:
-    """Generate AI suggestions to improve resume."""
     logger.info(f"Generating AI feedback on how to improve the {experience} level resume.")
     if not model:
         raise RuntimeError("Gemini model is not initialized.")

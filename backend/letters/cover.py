@@ -37,11 +37,17 @@ async def generate_cover_letter(data: CoverLetterCreate):
         prompt = f"""
         Write a professional cover letter for the job.
 
-        Resume:
-        {resume_text}
+Resume:
+{resume_text}
 
-        Job Description:
-        {data.job_description}
+Job Description:
+{data.job_description}
+
+CRITICAL INSTRUCTIONS:
+- Extract the applicant's name, email, phone number, and LinkedIn/Portfolio URLs directly from the resume.
+- DO NOT use any placeholders like [Your Name], [Company Name], [Date], [Hiring Manager], etc.
+- If specific information (like the hiring manager's name or company address) is missing, seamlessly format the letter to omit those fields entirely rather than inserting a placeholder.
+- Keep the cover letter concise, professional, and tailored to the job description (150–200 words).
         """
         
         logger.info("Generating content via Gemini API")

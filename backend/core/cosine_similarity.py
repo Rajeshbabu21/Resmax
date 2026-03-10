@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 logger = logging.getLogger(__name__)
 
 def calculate_similarity(resume_embeddings: list, keyword_embeddings: list) -> list:
-    """Calculate cosine similarity between resume embeddings and keyword embeddings."""
+
     logger.info("Calculating similarity between resume chunks and keywords.")
     try:
         if not resume_embeddings or not keyword_embeddings:
@@ -49,7 +49,6 @@ def top_k_scores(scores: list, k: int = 10) -> list:
         raise
 
 def calculate_ats_score(top_scores: list) -> int:
-    """Convert similarity scores to ATS score (0-100)."""
     logger.info("Calculating final ATS score.")
     try:
         if not top_scores:
