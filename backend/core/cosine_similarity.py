@@ -20,10 +20,12 @@ def calculate_similarity(resume_embeddings: list, keyword_embeddings: list) -> l
         
         # Output shape: [len(resume_embeddings), len(keyword_embeddings)]
         similarity_matrix = cosine_similarity(res_arr, kw_arr)
+        logger.info(f"Cosine similarity matrix computed with shape {similarity_matrix.shape}:\n{similarity_matrix}")
         
         # We want the max similarity score for each keyword across any of the resume chunks
         # This implies: "Did the resume mention this skill in ANY of its sections?"
         best_match_per_keyword = np.max(similarity_matrix, axis=0)
+        logger.info(f"Best match cosine similarity scores per keyword:\n{best_match_per_keyword}")
         
         logger.info("Similarity calculation completed successfully.")
         return best_match_per_keyword.tolist()
