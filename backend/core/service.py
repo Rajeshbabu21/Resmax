@@ -1,4 +1,6 @@
 import logging
+import json
+import re
 from fastapi import UploadFile
 
 from core.resume_parser import parse_resume, clean_text
@@ -83,7 +85,29 @@ async def analyze_resume(category: str,role: str, experience: str, file: UploadF
         
         # Step 11: Generate feedback
         logger.info("Step 11: Generating improvement feedback")
-        feedback = generate_feedback(cleaned_text, missing_keywords, experience)
+        raw_feedback = generate_feedback(cleaned_text, missing_keywords, experience)
+        
+        # Parse feedback JSON
+        content_quality, ats_structure = 0, 0
+        job_optimization, ready_to_apply, writing_quality = 0, 0, 0
+        feedback_text = raw_feedback
+        parsed_json = None
+        
+        try:
+            clean_str = re.sub(r'^```(?:json)?\s*', '', raw_feedback.strip())
+            clean_str = re.sub(r'\s*```$', '', clean_str.strip())
+            parsed_json = json.loads(clean_str)
+            
+            content_quality = int(parsed_json.get("content_quality", 0))
+            ats_structure = int(parsed_json.get("ats_structure", 0))
+            job_optimization = int(parsed_json.get("job_optimization", 0))
+            ready_to_apply = int(parsed_json.get("ready_to_apply", 0))
+            writing_quality = int(parsed_json.get("writing_quality", 0))
+            
+            if "feedback" in parsed_json:
+                feedback_text = parsed_json["feedback"]
+        except Exception as e:
+            logger.error(f"Failed to parse AI feedback JSON: {e}")
         
         # Step 12: Save ATS score and feedback to Supabase (if available)
         logger.info("Step 12: Saving results to database")
@@ -108,7 +132,12 @@ async def analyze_resume(category: str,role: str, experience: str, file: UploadF
                     supabase.table("resume_scores").insert({
                         "resume_id": resume_id,
                         "ats_score": ats_score,
-                        "feedback": feedback
+                        "feedback": feedback_text,
+                        "content_quality": content_quality,
+                        "ats_structure": ats_structure,
+                        "job_optimization": job_optimization,
+                        "ready_to_apply": ready_to_apply,
+                        "writing_quality": writing_quality,
                     }).execute()
                     logger.info(f"Successfully saved ATS score to Supabase for User ID: {user_id}")
                 else:
@@ -126,7 +155,7 @@ async def analyze_resume(category: str,role: str, experience: str, file: UploadF
             "ats_score": ats_score,
             "keywords": keywords,
             "missing_keywords": missing_keywords,
-            "feedback": feedback
+            "feedback": parsed_json if parsed_json else feedback_text
         }
 
     except Exception as e:

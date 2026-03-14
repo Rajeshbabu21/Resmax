@@ -16,7 +16,7 @@ if GEMINI_API_KEY:
 else:
     logger.warning("GEMINI_API_KEY not found in environment variables.")
 
-# Using gemini model
+
 try:
     model_name = "models/gemini-2.5-flash"
     model = genai.GenerativeModel(model_name)
@@ -90,15 +90,47 @@ def generate_feedback(resume_text: str, missing_keywords: list, experience: str)
     missing_str = ", ".join(missing_keywords) if missing_keywords else "None (Excellent match!)"
     
     prompt = f"""
-    You are an expert Resume Coach for {experience} level professionals. Review the following resume excerpt and the list of missing keywords for the target role.
-    Provide actionable, constructive feedback (3-5 bullet points) on how the candidate can improve this resume to get past an ATS and land an interview.
-    
+    Analyze the following resume and score it based on ATS standards.
+
+    Scoring Criteria (Total 100):
+
+    1. Content Quality (0–40)
+       - Relevance of skills
+       - Experience clarity
+       - Achievements and impact
+
+    2. ATS Structure (0–20)
+       - Proper headings
+       - ATS friendly formatting
+       - Use of bullet points and sections
+
+    3. Job Optimization (0–25)
+       - Match between resume and job description
+       - Relevant keywords
+       - Skills alignment
+
+    4. Ready to Apply (0–5)
+       - Overall readiness for job submission
+
+    5. Writing Quality (0–10)
+       - Grammar
+       - Professional tone
+       - Clarity
+
     Missing Keywords from Resume: {missing_str}
     
     Resume Text (excerpt):
     {resume_text[:6000]}
-    
-    Provide pure text feedback formatting. Just provide the bullet points.
+
+    Return the response in JSON format strictly following this schema:
+    {{
+        "content_quality": <number 0-40>,
+        "ats_structure": <number 0-20>,
+        "job_optimization": <number 0-25>,
+        "ready_to_apply": <number 0-5>,
+        "writing_quality": <number 0-10>,
+        "feedback": "<string: overall actionable feedback and suggestions>"
+    }}
     """
     try:
         response = model.generate_content(prompt)

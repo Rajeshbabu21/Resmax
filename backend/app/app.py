@@ -10,6 +10,7 @@ from  letters.cover import generate_cover_letter
 from letters.email import generate_email_draft
 from schemas.cover import CoverLetterCreate
 from schemas.email import EmailCreate
+from dashboard.profile import get_profile
 
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -151,6 +152,15 @@ async def generate_email(
         "data": result
     }
 
+@app.get("/getprofile")
+async def getdashboard(user: dict = Depends(get_current_active_user)):
+    user_id = user.get("id") if isinstance(user, dict) else getattr(user, "id", None)
+    
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Valid user context missing")
+        
+    result = await get_profile(user_id)
+    return result
 
 
 

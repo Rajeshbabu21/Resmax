@@ -2,15 +2,22 @@ import React from 'react';
 import { TrendingUp, FileText, BookOpen, Brain, Star, BarChart2, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import { getProfile } from '../services/dashboard';
 
 export default function Dashboard() {
+    const [profile, setProfile] = React.useState(null);
+    React.useEffect(() => {
+        getProfile().then((data) => {
+            setProfile(data);
+        });
+    }, []);
     return (
         <div className="min-h-screen w-full bg-white text-brand-dark bg-grid pt-28 px-4 md:px-12 pb-12 overflow-x-hidden relative">
             <Header />
             <div className="max-w-7xl mx-auto">
                 <div className="mb-10 text-center md:text-left flex flex-col items-center md:items-start">
                     <h1 className="text-4xl md:text-5xl font-mono-title font-bold text-brand-dark mb-4 tracking-tight uppercase border-b-4 border-brand-pink pb-2 w-fit">
-                        RajeshBABU S
+                        {profile ? `${profile.first_name} ${profile.last_name}` : 'Welcome'}
                     </h1>
                     <p className="font-mono text-brand-dark text-sm md:text-base font-bold bg-[#f0f0f0] inline-block w-fit px-3 py-1 border-2 border-brand-dark shadow-[4px_4px_0px_0px_var(--color-brand-blue)]">
                         Here's an overview of your resume and career progress.
@@ -30,32 +37,41 @@ export default function Dashboard() {
                             </div>
 
                             <div className="flex-1 w-full relative pl-2 overflow-visible">
-                                {/* Re-colored SVG Chart mimicking the requested design with light theme colors */}
+                                {/* Re-colored SVG Chart mimicking the requested light theme colors */}
                                 <svg className="w-full h-[200px] overflow-visible" viewBox="0 0 400 200" preserveAspectRatio="none">
-                                    {/* Fill for the Hire Zone */}
-                                    <path d="M 300 200 L 300 120 Q 330 160 380 180 L 380 200 Z" fill="#bbf7d0" opacity="0.8" />
-                                    {/* Main curve path fill */}
-                                    <path d="M 20 180 C 150 180, 180 20, 260 20 C 310 20, 330 100, 380 160 L 380 200 L 20 200 Z" fill="url(#curveGradient)" opacity="0.4" />
-                                    {/* Main curve line */}
-                                    <path d="M 20 180 C 150 180, 180 20, 260 20 C 310 20, 330 100, 380 160" fill="none" stroke="var(--color-brand-blue)" strokeWidth="4" />
-
-                                    {/* Target / You point and lines */}
-                                    <line x1="220" y1="90" x2="220" y2="200" stroke="var(--color-brand-pink)" strokeWidth="3" strokeDasharray="6 6" />
-                                    <circle cx="220" cy="90" r="10" fill="var(--color-brand-pink)" stroke="#0a0a0a" strokeWidth="3" />
-
-                                    {/* Hire Zone division line */}
-                                    <line x1="300" y1="50" x2="300" y2="200" stroke="#10b981" strokeWidth="3" strokeDasharray="6 6" />
-
                                     <defs>
-                                        <linearGradient id="curveGradient" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stopColor="var(--color-brand-blue)" stopOpacity="1" />
-                                            <stop offset="100%" stopColor="var(--color-brand-blue)" stopOpacity="0" />
+                                        <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.4" />
+                                            <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+                                        </linearGradient>
+                                        <linearGradient id="greenGradient" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stopColor="#10b981" stopOpacity="0.5" />
+                                            <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
                                         </linearGradient>
                                     </defs>
 
+                                    {/* Main curve path fill */}
+                                    <path d="M 20 180 C 150 180, 180 20, 260 20 C 310 20, 330 100, 380 160 L 380 180 L 20 180 Z" fill="url(#blueGradient)" />
+
+                                    {/* Fill for the Hire Zone */}
+                                    <path d="M 320 180 L 320 67.5 C 330 100, 345 130, 380 160 L 380 180 Z" fill="url(#greenGradient)" />
+
+                                    {/* Main curve line */}
+                                    <path d="M 20 180 C 150 180, 180 20, 260 20 C 310 20, 330 100, 380 160" fill="none" stroke="#2563eb" strokeWidth="4" />
+
+                                    {/* X Axis base line */}
+                                    <line x1="20" y1="180" x2="380" y2="180" stroke="#000000" strokeWidth="2" />
+
+                                    {/* Target / You point and lines */}
+                                    <line x1="200" y1="52" x2="200" y2="180" stroke="#ec4899" strokeWidth="2" strokeDasharray="6 6" />
+                                    <circle cx="200" cy="52" r="8" fill="#ec4899" stroke="#000000" strokeWidth="3" />
+
+                                    {/* Hire Zone division line */}
+                                    <line x1="320" y1="67.5" x2="320" y2="180" stroke="#10b981" strokeWidth="2" strokeDasharray="6 6" />
+
                                     {/* Labels inside chart */}
-                                    <text x="220" y="70" textAnchor="middle" fill="#0a0a0a" fontSize="14" fontWeight="bold" fontFamily="monospace">You (73)</text>
-                                    <text x="310" y="60" fill="#059669" fontSize="14" fontWeight="bold" fontFamily="monospace">Hire Zone</text>
+                                    <text x="200" y="32" textAnchor="middle" fill="#000000" fontSize="14" fontWeight="bold" fontFamily="monospace">You ({profile ? Math.round(profile.ats_score) : 0})</text>
+                                    <text x="350" y="55" textAnchor="middle" fill="#000000" fontSize="14" fontWeight="bold" fontFamily="monospace">Hire Zone 85 +</text>
                                 </svg>
                                 {/* X Axis Labels */}
                                 <div className="flex justify-between px-6 text-sm font-bold font-mono text-brand-dark mt-4 border-t-2 border-brand-dark pt-2">
@@ -113,7 +129,7 @@ export default function Dashboard() {
                                     </div>
                                     <span className="text-brand-pink font-bold group-hover:scale-125 transition-transform">&rarr;</span>
                                 </div>
-                                <div className="text-4xl font-black font-mono-title text-brand-dark">2</div>
+                                <div className="text-4xl font-black font-mono-title text-brand-dark">{profile?.resumes || 0}</div>
                             </div>
 
                             <div className="bg-white border-4 border-brand-dark rounded-none p-5 shadow-[4px_4px_0px_0px_var(--color-brand-pink)] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_var(--color-brand-pink)] transition-all cursor-pointer group">
@@ -124,18 +140,18 @@ export default function Dashboard() {
                                     </div>
                                     <span className="text-brand-blue font-bold group-hover:scale-125 transition-transform">&rarr;</span>
                                 </div>
-                                <div className="text-4xl font-black font-mono-title text-brand-dark">1</div>
+                                <div className="text-4xl font-black font-mono-title text-brand-dark">{profile?.cover_letters || 0}</div>
                             </div>
 
                             <div className="bg-white border-4 border-brand-dark rounded-none p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer group">
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="flex items-center gap-2 text-brand-dark font-bold font-mono">
                                         <Brain size={20} strokeWidth={2.5} />
-                                        <span className="text-sm uppercase tracking-wider">Reviews</span>
+                                        <span className="text-sm uppercase tracking-wider">Email Drafts</span>
                                     </div>
                                     <span className="text-brand-pink font-bold group-hover:scale-125 transition-transform">&rarr;</span>
                                 </div>
-                                <div className="text-4xl font-black font-mono-title text-brand-dark">2</div>
+                                <div className="text-4xl font-black font-mono-title text-brand-dark">{profile?.email_drafts || 0}</div>
                             </div>
 
                             <div className="bg-brand-dark text-white border-4 border-brand-dark rounded-none p-5 shadow-[4px_4px_0px_0px_var(--color-brand-blue)] cursor-default">
@@ -145,7 +161,7 @@ export default function Dashboard() {
                                         <span className="text-sm uppercase tracking-wider text-white">Avg Score</span>
                                     </div>
                                 </div>
-                                <div className="text-4xl font-black font-mono-title text-brand-pink">67 <span className="text-lg font-bold font-mono text-white">/100</span></div>
+                                <div className="text-4xl font-black font-mono-title text-brand-pink">{profile ? Math.round(profile.ats_score) : 0} <span className="text-lg font-bold font-mono text-white">/100</span></div>
                             </div>
                         </div>
 
@@ -163,10 +179,10 @@ export default function Dashboard() {
                                 <div>
                                     <div className="flex justify-between text-sm mb-2 font-mono font-bold">
                                         <span className="text-brand-pink uppercase font-black tracking-widest">Content Quality (needs work)</span>
-                                        <span className="text-brand-dark border-2 border-brand-dark px-2 rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] bg-white text-xs py-1">27/40</span>
+                                        <span className="text-brand-dark border-2 border-brand-dark px-2 rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] bg-white text-xs py-1">{profile?.content_quality || 0}/40</span>
                                     </div>
                                     <div className="w-full bg-[#f0f0f0] h-4 rounded-none border-2 border-brand-dark overflow-hidden relative shadow-[inset_0px_2px_4px_rgba(0,0,0,0.1)]">
-                                        <div className="bg-brand-pink border-r-2 border-brand-dark h-full" style={{ width: '67.5%' }}></div>
+                                        <div className="bg-brand-pink border-r-2 border-brand-dark h-full" style={{ width: `${((profile?.content_quality || 0) / 40) * 100}%` }}></div>
                                     </div>
                                 </div>
 
@@ -174,10 +190,10 @@ export default function Dashboard() {
                                 <div>
                                     <div className="flex justify-between text-sm mb-2 font-mono font-bold">
                                         <span className="text-brand-dark uppercase">ATS & Structure</span>
-                                        <span className="text-brand-dark border-2 border-brand-dark px-2 rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] bg-white text-xs py-1">15/20</span>
+                                        <span className="text-brand-dark border-2 border-brand-dark px-2 rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] bg-white text-xs py-1">{profile?.ats_structure || 0}/20</span>
                                     </div>
                                     <div className="w-full bg-[#f0f0f0] h-4 rounded-none border-2 border-brand-dark overflow-hidden relative shadow-[inset_0px_2px_4px_rgba(0,0,0,0.1)]">
-                                        <div className="bg-brand-blue border-r-2 border-brand-dark h-full" style={{ width: '75%' }}></div>
+                                        <div className="bg-brand-blue border-r-2 border-brand-dark h-full" style={{ width: `${((profile?.ats_structure || 0) / 20) * 100}%` }}></div>
                                     </div>
                                 </div>
 
@@ -185,10 +201,10 @@ export default function Dashboard() {
                                 <div>
                                     <div className="flex justify-between text-sm mb-2 font-mono font-bold">
                                         <span className="text-brand-dark uppercase">Job Optimization</span>
-                                        <span className="text-brand-dark border-2 border-brand-dark px-2 rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] bg-white text-xs py-1">19/25</span>
+                                        <span className="text-brand-dark border-2 border-brand-dark px-2 rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] bg-white text-xs py-1">{profile?.job_optimization || 0}/25</span>
                                     </div>
                                     <div className="w-full bg-[#f0f0f0] h-4 rounded-none border-2 border-brand-dark overflow-hidden relative shadow-[inset_0px_2px_4px_rgba(0,0,0,0.1)]">
-                                        <div className="bg-[#eab308] border-r-2 border-brand-dark h-full" style={{ width: '76%' }}></div>
+                                        <div className="bg-[#eab308] border-r-2 border-brand-dark h-full" style={{ width: `${((profile?.job_optimization || 0) / 25) * 100}%` }}></div>
                                     </div>
                                 </div>
 
@@ -196,10 +212,10 @@ export default function Dashboard() {
                                 <div>
                                     <div className="flex justify-between text-sm mb-2 font-mono font-bold">
                                         <span className="text-brand-dark uppercase">Writing Quality</span>
-                                        <span className="text-brand-dark border-2 border-brand-dark px-2 rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] bg-white text-xs py-1">7/10</span>
+                                        <span className="text-brand-dark border-2 border-brand-dark px-2 rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] bg-white text-xs py-1">{profile?.writing_quality || 0}/10</span>
                                     </div>
                                     <div className="w-full bg-[#f0f0f0] h-4 rounded-none border-2 border-brand-dark overflow-hidden relative shadow-[inset_0px_2px_4px_rgba(0,0,0,0.1)]">
-                                        <div className="bg-[#eab308] border-r-2 border-brand-dark h-full" style={{ width: '70%' }}></div>
+                                        <div className="bg-[#eab308] border-r-2 border-brand-dark h-full" style={{ width: `${((profile?.writing_quality || 0) / 10) * 100}%` }}></div>
                                     </div>
                                 </div>
 
@@ -207,10 +223,10 @@ export default function Dashboard() {
                                 <div>
                                     <div className="flex justify-between text-sm mb-2 font-mono font-bold">
                                         <span className="text-emerald-600 uppercase">Application Ready</span>
-                                        <span className="text-white border-2 border-brand-dark px-2 rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] bg-emerald-500 text-xs py-1">5/5</span>
+                                        <span className="text-white border-2 border-brand-dark px-2 rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] bg-emerald-500 text-xs py-1">{profile?.ready_to_apply || 0}/5</span>
                                     </div>
                                     <div className="w-full bg-[#f0f0f0] h-4 rounded-none border-2 border-brand-dark overflow-hidden relative shadow-[inset_0px_2px_4px_rgba(0,0,0,0.1)]">
-                                        <div className="bg-emerald-400 border-r-2 border-brand-dark h-full" style={{ width: '100%' }}></div>
+                                        <div className="bg-emerald-400 border-r-2 border-brand-dark h-full" style={{ width: `${((profile?.ready_to_apply || 0) / 5) * 100}%` }}></div>
                                     </div>
                                 </div>
                             </div>
