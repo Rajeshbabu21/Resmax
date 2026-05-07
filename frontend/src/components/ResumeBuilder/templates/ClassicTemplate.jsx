@@ -9,13 +9,13 @@ export default function ClassicTemplate({ data }) {
                     {data.personalInfo.firstName} {data.personalInfo.lastName}
                 </h1>
                 <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 mt-3 text-sm text-gray-600">
-                    {data.personalInfo.email && <span>{data.personalInfo.email}</span>}
-                    {data.personalInfo.phone && <span>• {data.personalInfo.phone}</span>}
+                    {data.personalInfo.email && <a href={`mailto:${data.personalInfo.email}`} className="hover:text-blue-600 hover:underline">{data.personalInfo.email}</a>}
+                    {data.personalInfo.phone && <a href={`tel:${data.personalInfo.phone}`} className="hover:text-blue-600 hover:underline">• {data.personalInfo.phone}</a>}
                     {data.personalInfo.address && <span>• {data.personalInfo.address}</span>}
                 </div>
                 <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 mt-1 text-sm text-gray-600">
-                    {data.personalInfo.linkedin && <span>{data.personalInfo.linkedin}</span>}
-                    {data.personalInfo.portfolio && <span>• {data.personalInfo.portfolio}</span>}
+                    {data.personalInfo.linkedin && <a href={`https://${data.personalInfo.linkedin.replace('https://', '')}`} target="_blank" rel="noreferrer" className="hover:text-blue-600 hover:underline">{data.personalInfo.linkedin}</a>}
+                    {data.personalInfo.portfolio && <a href={`https://${data.personalInfo.portfolio.replace('https://', '')}`} target="_blank" rel="noreferrer" className="hover:text-blue-600 hover:underline">• {data.personalInfo.portfolio}</a>}
                 </div>
             </header>
 
@@ -64,6 +64,24 @@ export default function ClassicTemplate({ data }) {
                                     <span className="text-sm text-gray-600">{edu.location}</span>
                                 </div>
                                 <p className="text-sm leading-relaxed">{edu.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {/* Projects */}
+            {data.projects && data.projects.length > 0 && (
+                <section className="mb-6">
+                    <h2 className="text-lg font-bold uppercase border-b border-gray-400 mb-3 pb-1 tracking-wider text-gray-900">Projects</h2>
+                    <div className="flex flex-col gap-4">
+                        {data.projects.map(proj => (
+                            <div key={proj.id}>
+                                <div className="flex justify-between items-baseline mb-1">
+                                    <h3 className="font-bold text-gray-900">{proj.title}</h3>
+                                    <span className="text-sm text-blue-600 underline"><a href={`https://${proj.link.replace('https://', '')}`} target="_blank" rel="noreferrer">{proj.link}</a></span>
+                                </div>
+                                <p className="text-sm leading-relaxed">{proj.description}</p>
                             </div>
                         ))}
                     </div>

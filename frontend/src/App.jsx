@@ -7,6 +7,7 @@ import Builder from './pages/Builder';
 import ATSAnalysis from './pages/ATSAnalysis';
 import Templates from './pages/Templates';
 import Dashboard from './pages/Dashboard';
+import Letters from './pages/Letters';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/builder" element={<Builder />} />
             <Route path="/ats" element={<ATSAnalysis />} />
+            <Route path="/letters" element={<Letters />} />
             <Route path="/templates" element={<Templates />} />
             <Route path="/signin" element={<Signin />} />
             <Route path="/signup" element={<Signup />} />

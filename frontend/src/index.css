@@ -60,3 +60,8 @@ h2 strong,
 .font-mono-title {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
+
+@media print {
+  @page { margin: 0; }
+  body { margin: 0; }
+}

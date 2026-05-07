@@ -14,21 +14,25 @@ async def generate_email_draft(data: EmailCreate):
     logger.info(f"--- Starting Email Draft Generation Pipeline for User ID: {data.user_id}, Resume ID: {data.resume_id} ---")
 
     try:
+        resume_text = data.resume_text
+        if not resume_text and not data.resume_id:
+            resume_text = "Experience: Entry level professional. Highly motivated, quick learner, eager to contribute to the team and develop new skills."
         
-        logger.info(f"Fetching resume with ID {data.resume_id} for user {data.user_id}")
-        resume_response = (
-            supabase.table("resumes")
-            .select("original_content")
-            .eq("id", data.resume_id)
-            .eq("user_id", data.user_id)
-            .execute()
-        )
+        if data.resume_id:
+            logger.info(f"Fetching resume with ID {data.resume_id} for user {data.user_id}")
+            resume_response = (
+                supabase.table("resumes")
+                .select("original_content")
+                .eq("id", data.resume_id)
+                .eq("user_id", data.user_id)
+                .execute()
+            )
 
-        if not resume_response.data:
-            logger.warning(f"Resume {data.resume_id} for user {data.user_id} not found in database.")
-            return {"error": "Resume not found"}
+            if not resume_response.data:
+                logger.warning(f"Resume {data.resume_id} for user {data.user_id} not found in database.")
+                return {"error": "Resume not found"}
 
-        resume_text = resume_response.data[0]["original_content"]
+            resume_text = resume_response.data[0]["original_content"]
         
         # Log a snippet of the extracted text to verify database contents
         logger.info(f"Extracted Resume Content Snapshot:\n{resume_text[:500]}...")
@@ -55,7 +59,10 @@ CRITICAL INSTRUCTIONS:
 - Keep the email concise (120–150 words).
 - DO NOT use any placeholders like [Your Name], [Company Name], [Date], [Hiring Manager], etc. 
 - Extract the applicant's name and contact details directly from the resume to sign off the email.
+- If the applicant's name is missing, DO NOT invent a random name. Simply end the email with "Sincerely," and nothing else.
 - If information like the hiring manager's name is missing, use a generic greeting like "Dear Hiring Team,".
+- If the resume is brief, emphasize eagerness to learn and general entry-level suitability for the job.
+- YOU MUST generate the email. DO NOT refuse to generate under any circumstances.
 - Generate:
 1. Email Subject
 2. Email Body
@@ -76,15 +83,18 @@ CRITICAL INSTRUCTIONS:
 
         # Store in Supabase
         logger.info("Saving generated email draft to database")
+        insert_data = {
+            "user_id": data.user_id,
+            "job_description": data.job_description,
+            "email_subject": email_subject,
+            "email_body": email_body
+        }
+        if data.resume_id:
+            insert_data["resume_id"] = data.resume_id
+            
         result = (
             supabase.table("email_drafts")
-            .insert({
-                "user_id": data.user_id,
-                "resume_id": data.resume_id,
-                "job_description": data.job_description,
-                "email_subject": email_subject,
-                "email_body": email_body
-            })
+            .insert(insert_data)
             .execute()
         )
         

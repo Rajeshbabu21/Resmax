@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import ResumeForm from './ResumeForm';
 import ResumePreview from './ResumePreview';
 import { dummyResumeData } from './DummyData';
+import { saveResumeDraft } from '../../services/resumes';
 import Button from '../ui/Button';
 
 export default function ResumeBuilder() {
@@ -20,14 +21,33 @@ export default function ResumeBuilder() {
     }, [templateId, setSearchParams, searchParams]);
 
 
+    const [isSaving, setIsSaving] = useState(false);
+
     const handleDownload = () => {
-        alert("Download feature coming soon!");
+        window.print();
+    };
+
+    const handleSaveDraft = async () => {
+        setIsSaving(true);
+        try {
+            const draftName = `Draft - ${new Date().toLocaleDateString()}`;
+            const payload = {
+                title: draftName,
+                content: resumeData
+            };
+            await saveResumeDraft(payload);
+            alert("Draft saved successfully!");
+        } catch (error) {
+            alert(`Failed to save draft: ${error.message}`);
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     return (
-        <div className="flex flex-col h-screen pt-[72px] md:pt-[76px]">
+        <div className="flex flex-col h-screen pt-[72px] md:pt-[76px] print:h-auto print:pt-0 print:block">
             {/* Action Bar */}
-            <div className="flex justify-between items-center px-4 py-3 bg-brand-light border-b-2 border-brand-dark z-10 shrink-0">
+            <div className="flex justify-between items-center px-4 py-3 bg-brand-light border-b-2 border-brand-dark z-10 shrink-0 print:hidden">
                 <div className="flex items-center gap-6">
                     <h1 className="font-mono-title font-bold text-xl uppercase tracking-widest hidden md:block">Resumax Builder</h1>
 
@@ -48,22 +68,24 @@ export default function ResumeBuilder() {
                 </div>
 
                 <div className="flex gap-4">
-                    <Button variant="outline" className="hidden sm:block">Save Draft</Button>
+                    <Button variant="outline" className="hidden sm:block" onClick={handleSaveDraft} disabled={isSaving}>
+                        {isSaving ? "Saving..." : "Save Draft"}
+                    </Button>
                     <Button onClick={handleDownload}>Export PDF</Button>
                 </div>
             </div>
 
             {/* Builder Layout */}
-            <div className="flex flex-col lg:flex-row flex-1 overflow-hidden">
+            <div className="flex flex-col lg:flex-row flex-1 overflow-hidden print:overflow-visible print:block">
                 {/* Form Pane */}
-                <div className="w-full lg:w-1/2 p-4 md:p-8 bg-brand-light/50 border-r-0 lg:border-r-2 border-brand-dark overflow-hidden">
+                <div className="w-full lg:w-1/2 p-4 md:p-8 bg-brand-light/50 border-r-0 lg:border-r-2 border-brand-dark overflow-hidden print:hidden">
                     <div className="h-full max-h-full">
                         <ResumeForm data={resumeData} onChange={setResumeData} />
                     </div>
                 </div>
 
                 {/* Preview Pane */}
-                <div className="w-full lg:w-1/2 p-4 md:p-8 bg-gray-100 overflow-y-auto overflow-x-hidden flex justify-center">
+                <div className="w-full lg:w-1/2 p-4 md:p-8 bg-gray-100 overflow-y-auto overflow-x-hidden flex justify-center print:w-full print:p-0 print:bg-white print:overflow-visible print:block">
                     <div className="max-w-full">
                         <ResumePreview data={resumeData} templateId={templateId} />
                     </div>

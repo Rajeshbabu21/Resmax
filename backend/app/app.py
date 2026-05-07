@@ -10,7 +10,9 @@ from  letters.cover import generate_cover_letter
 from letters.email import generate_email_draft
 from schemas.cover import CoverLetterCreate
 from schemas.email import EmailCreate
+from schemas.resume import ResumeDraftCreate
 from dashboard.profile import get_profile
+import json
 
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -161,6 +163,41 @@ async def getdashboard(user: dict = Depends(get_current_active_user)):
         
     result = await get_profile(user_id)
     return result
+
+@app.get("/get_user_resumes")
+async def get_user_resumes(user: dict = Depends(get_current_active_user)):
+    user_id = user.get("id") if isinstance(user, dict) else getattr(user, "id", None)
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Valid user context missing")
+        
+    response = supabase.table("resumes").select("id, title, created_at").eq("user_id", user_id).order("created_at", desc=True).execute()
+    return {"data": response.data}
+
+@app.post("/save_resume_draft")
+async def save_resume_draft(draft: ResumeDraftCreate, user: dict = Depends(get_current_active_user)):
+    user_id = user.get("id") if isinstance(user, dict) else getattr(user, "id", None)
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Valid user context missing")
+        
+    try:
+        # Convert the complex JSON dict back to a string for original_content column
+        content_str = json.dumps(draft.content)
+        
+        response = supabase.table("resumes").insert({
+            "user_id": user_id,
+            "title": draft.title,
+            "original_content": content_str,
+            "current_ats_score": 0
+        }).execute()
+        
+        if not response.data:
+            raise HTTPException(status_code=400, detail="Failed to save draft")
+            
+        return {"message": "Draft saved successfully", "data": response.data[0]}
+    except Exception as e:
+        print("SAVE DRAFT ERROR:", e)
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 
 
