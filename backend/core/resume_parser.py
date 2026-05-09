@@ -38,3 +38,38 @@ def clean_text(text: str) -> str:
     except Exception as e:
         logger.error(f"Error cleaning text: {e}")
         raise
+
+def extract_text_from_json(data) -> str:
+    """Recursively extract all string values from a JSON structure."""
+    text_parts = []
+    if isinstance(data, dict):
+        for key, value in data.items():
+            text_parts.append(extract_text_from_json(value))
+    elif isinstance(data, list):
+        for item in data:
+            text_parts.append(extract_text_from_json(item))
+    elif isinstance(data, str):
+        text_parts.append(data)
+    elif isinstance(data, (int, float)):
+        text_parts.append(str(data))
+    return " ".join(filter(bool, text_parts))
+
+def parse_resume_json(json_content: str) -> str:
+    """Extract plain text from a saved resume JSON draft."""
+    logger.info("Starting resume extraction from JSON draft.")
+    try:
+        import json
+        if isinstance(json_content, str):
+            try:
+                data = json.loads(json_content)
+            except json.JSONDecodeError:
+                logger.warning("original_content is not valid JSON. Treating it as raw text.")
+                return json_content.strip()
+        else:
+            data = json_content
+        text = extract_text_from_json(data)
+        logger.info(f"Successfully extracted {len(text)} characters from JSON draft.")
+        return text
+    except Exception as e:
+        logger.error(f"Error extracting text from JSON draft: {e}")
+        raise

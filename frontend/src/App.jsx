@@ -12,7 +12,7 @@ import Letters from './pages/Letters';
 function App() {
   return (
     <Router>
-      <div className="min-h-screen relative w-full flex flex-col items-center bg-white text-brand-dark bg-grid overflow-x-hidden">
+      <div className="min-h-screen relative w-full flex flex-col items-center bg-white text-brand-dark bg-grid overflow-x-hidden print:overflow-visible print:block">
         <div className="w-full max-w-[100vw]">
           <Routes>
             <Route path="/" element={<Home />} />

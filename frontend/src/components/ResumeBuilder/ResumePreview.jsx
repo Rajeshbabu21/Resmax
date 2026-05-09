@@ -21,7 +21,7 @@ export default function ResumePreview({ data, templateId = 'classic' }) {
     };
 
     return (
-        <div className="w-full flex justify-center origin-top transform scale-[0.6] md:scale-75 lg:scale-100 transition-transform">
+        <div className="w-full flex justify-center origin-top transform scale-[0.6] md:scale-75 lg:scale-100 print:scale-100 print:transform-none transition-transform print:m-0 print:p-0">
             <div className="w-[816px] min-h-[1056px] relative">
                 {renderTemplate()}
             </div>

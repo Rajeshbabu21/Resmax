@@ -3,7 +3,7 @@ import json
 import re
 from fastapi import UploadFile
 
-from core.resume_parser import parse_resume, clean_text
+from core.resume_parser import parse_resume, clean_text, parse_resume_json
 from core.embedding_service import (
     chunk_text, 
     generate_resume_embeddings, 
@@ -33,7 +33,9 @@ except ImportError:
 logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-async def analyze_resume(category: str,role: str, experience: str, file: UploadFile, user_id: int = None) -> dict:
+from typing import Optional
+
+async def analyze_resume(category: str, role: str, experience: str, file: Optional[UploadFile] = None, resume_id: Optional[int] = None, user_id: int = None) -> dict:
     """
     Orchestrates the entire ATS Resume Analysis pipeline.
     Uses async-compatible definition for FastAPI compatibility.
@@ -43,8 +45,17 @@ async def analyze_resume(category: str,role: str, experience: str, file: UploadF
     try:
         # Step 1: Parse resume
         logger.info("Step 1: Parsing resume")
-        # Extract text directly from the internally spooled file object of UploadFile
-        raw_text = parse_resume(file.file)
+        if file:
+            # Extract text directly from the internally spooled file object of UploadFile
+            raw_text = parse_resume(file.file)
+        elif resume_id and supabase:
+            response = supabase.table("resumes").select("original_content").eq("id", resume_id).execute()
+            if not response.data:
+                raise Exception(f"Resume with ID {resume_id} not found.")
+            original_content = response.data[0].get("original_content")
+            raw_text = parse_resume_json(original_content)
+        else:
+            raise Exception("Either file or a valid resume_id with database connection must be provided.")
         
         # Step 2: Clean text
         logger.info("Step 2: Cleaning text")

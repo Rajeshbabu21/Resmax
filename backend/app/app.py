@@ -96,7 +96,8 @@ async def analyze(
     role: str = Form(...),
     category: str = Form(...),
     experience: str = Form(...),
-    file: UploadFile = File(...),
+    resume_id: Optional[int] = Form(None),
+    file: Optional[UploadFile] = File(None),
     user: dict = Depends(get_current_active_user)
 ):
     user_id = user.get("id") if isinstance(user, dict) else getattr(user, "id", None)
@@ -104,7 +105,10 @@ async def analyze(
     if not user_id:
         raise HTTPException(status_code=401, detail="Valid user context missing")
         
-    result = await analyze_resume(role, category, experience, file, user_id=user_id)
+    if not file and not resume_id:
+        raise HTTPException(status_code=400, detail="Either file or resume_id must be provided")
+
+    result = await analyze_resume(category, role, experience, file=file, resume_id=resume_id, user_id=user_id)
     return result
 
 @app.post("/generate_cover_letter")

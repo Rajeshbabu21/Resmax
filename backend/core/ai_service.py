@@ -129,7 +129,7 @@ def generate_feedback(resume_text: str, missing_keywords: list, experience: str)
         "job_optimization": <number 0-25>,
         "ready_to_apply": <number 0-5>,
         "writing_quality": <number 0-10>,
-        "feedback": "<string: overall actionable feedback and suggestions>"
+        "feedback": "<string: Provide 3-5 concise bullet points of highly actionable feedback. Do NOT generate long paragraphs or regurgitate the missing keywords. Focus on specific structural or content improvements.>"
     }}
     """
     try:

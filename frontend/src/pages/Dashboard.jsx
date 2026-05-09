@@ -86,33 +86,11 @@ export default function Dashboard() {
 
                         {/* Resumes List inside Pink Shadow Div */}
                         <div className="bg-white border-4 border-brand-dark rounded-xl p-6 shadow-[8px_8px_0px_0px_var(--color-brand-pink)] flex flex-col gap-4 group">
-                            <h2 className="text-brand-dark font-mono font-bold text-xl uppercase tracking-widest border-b-2 border-brand-dark pb-2 mb-2">Your Resumes</h2>
+                            <h2 className=" text-center text-brand-dark font-mono font-bold text-xl uppercase tracking-widest border-b-2 border-brand-dark pb-2 mb-2">Your Resumes Overview</h2>
 
-                            {/* Resume Item 1 */}
-                            <div className="flex items-center justify-between p-4 border-2 border-brand-dark shadow-[4px_4px_0px_0px_var(--color-brand-blue)] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_var(--color-brand-blue)] transition-all cursor-pointer bg-[#f0f0f0]">
-                                <div className="flex items-center gap-3">
-                                    <div className="bg-white p-2 border-2 border-brand-dark shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-brand-blue hover:text-white transition-colors">
-                                        <FileText size={20} strokeWidth={2.5} />
-                                    </div>
-                                    <div>
-                                        <p className="font-mono font-bold text-brand-dark text-sm uppercase tracking-wide">Frontend_Dev_v2.pdf</p>
-                                        <p className="font-mono text-xs text-gray-600 font-bold">Score: 73 &bull; Updated today</p>
-                                    </div>
-                                </div>
-                            </div>
 
-                            {/* Resume Item 2 */}
-                            <div className="flex items-center justify-between p-4 border-2 border-brand-dark shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer bg-white mt-1">
-                                <div className="flex items-center gap-3">
-                                    <div className="bg-[#f0f0f0] p-2 border-2 border-brand-dark shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-brand-pink hover:text-white transition-colors">
-                                        <FileText size={20} strokeWidth={2.5} />
-                                    </div>
-                                    <div>
-                                        <p className="font-mono font-bold text-brand-dark text-sm uppercase tracking-wide">Soft_Eng_Base.pdf</p>
-                                        <p className="font-mono text-xs text-gray-600 font-bold">Score: 61 &bull; 2 weeks ago</p>
-                                    </div>
-                                </div>
-                            </div>
+
+
                         </div>
                     </div>
 
