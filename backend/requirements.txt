@@ -10,7 +10,7 @@ bcrypt==3.2.2
 supabase==2.15.3
 imagekitio==4.1.0
 
-google-generativeai==0.5.4
+google-generativeai==0.4.1
 protobuf==4.25.3
 
 langchain==0.1.16
